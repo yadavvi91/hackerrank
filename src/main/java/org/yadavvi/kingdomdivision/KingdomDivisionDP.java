@@ -9,9 +9,41 @@ public class KingdomDivisionDP implements KingdomDivision {
 
     @Override
     public int numberOfWaysToDivideAKingdom(int n, int[][] roads, int MOD_VALUE) {
+        if (roads.length == 0) return 1;
+        if (roads.length == 1) return 2;
         Graph graph = createGraph(n, roads);
-        System.out.println(graph);
-        return 4;
+        return numberOfWaysToDivideAKingdom(graph, MOD_VALUE);
+    }
+
+    private int numberOfWaysToDivideAKingdom(Graph graph, int MOD_VALUE) {
+        int[] colorCount = new int[graph.bags.length];
+        int firstCity = -1;
+        for (Bag bag : graph.bags) {
+            if (bag != null) {
+                firstCity = bag.city;
+                break;
+            }
+        }
+        if (firstCity == -1) return 0;
+        return numberOfWaysToDivideAKingdom(graph, MOD_VALUE, colorCount, firstCity);
+    }
+
+    private int numberOfWaysToDivideAKingdom(Graph graph, int MOD_VALUE, int[] colorCount, int fromCity) {
+        if (colorCount[fromCity] != 0) return colorCount[fromCity];
+        List<Integer> toCities = graph.getRoadsToCities(fromCity);
+        if (toCities == null) return 0;
+        if (toCities.size() == 0) return 0;
+
+        int ways = 1;
+        for (Integer toCity : toCities) {
+            int toCityWays = numberOfWaysToDivideAKingdom(graph, MOD_VALUE, colorCount, toCity) % MOD_VALUE;
+            colorCount[toCity] = toCityWays;
+            if (toCityWays != 0) {
+                ways = (ways * toCityWays) % MOD_VALUE;
+            }
+        }
+        colorCount[fromCity] = ways == 1 ? 2 : ways * 2 % MOD_VALUE;
+        return colorCount[fromCity];
     }
 
     private Graph createGraph(int n, int[][] roads) {
@@ -64,6 +96,11 @@ public class KingdomDivisionDP implements KingdomDivision {
 
         void addAdjacencyList(Integer key, List<Integer> value) {
             bags[key] = new Bag(key, value);
+        }
+
+        List<Integer> getRoadsToCities(Integer fromCity) {
+            if (bags[fromCity] == null) return null;
+            return bags[fromCity].roadsToCities;
         }
 
         @Override

@@ -74,12 +74,12 @@ public class CoinChange implements NumberOfWaysForCoinChange {
 
         @Override
         public boolean equals(Object obj) {
-            if (obj == null) return false;
             if (obj == this) return true;
             if (!(obj instanceof CoinValues)) return false;
 
             CoinValues otherCoinValues = (CoinValues) obj;
             HashMap<Long, Integer> otherCoinCount = otherCoinValues.coinCount;
+            if (coinCount.size() != otherCoinCount.size()) return false;
 
             for (Long key : otherCoinCount.keySet()) {
                 if (!coinCount.get(key).equals(otherCoinCount.get(key))) return false;
@@ -89,11 +89,15 @@ public class CoinChange implements NumberOfWaysForCoinChange {
 
         @Override
         public int hashCode() {
-            int hash = 0;
+            Long key;
+            Integer value;
+            int result = 17;
             for (Map.Entry<Long, Integer> entry : coinCount.entrySet()) {
-                hash += 31 * entry.getKey() * entry.getValue();
+                key = entry.getKey();
+                value = entry.getValue();
+                result = 31 * result + ((int) (key ^ (key >>> 32))) * value;
             }
-            return hash;
+            return result;
         }
     }
 

@@ -75,7 +75,7 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
 
         @Override
         public boolean equals(Object obj) {
-            if (obj == null) return false;
+            if (obj == this) return true;
             if (!(obj instanceof CoinCombination)) return false;
 
             CoinCombination other = (CoinCombination) obj;
@@ -86,6 +86,28 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
             }
 
             return true;
+        }
+
+        /**
+         * Start "result" with "17".
+         * <ul>
+         * <li>If boolean - (f ? 1 : 0)</li>
+         * <li>If byte, char, short or int - (int) f</li>
+         * <li>If long - (int) (f ^ (f >>> 32))</li>
+         * <li>If float - Float.floatToIntBits(f)</li>
+         * <li>If double - Double.doubleToLongBits(f)</li>
+         * <li>If array - compute the hash of every individual item in array and add them.</li>
+         * </ul>
+         * Finally - result = 31 * result + c
+         */
+        @Override
+        public int hashCode() {
+            int result = 17;
+            for (Long coin : coins) {
+                result = result * 31 + ((int) (coin ^ (coin >>> 32)));
+            }
+
+            return result;
         }
 
         @Override

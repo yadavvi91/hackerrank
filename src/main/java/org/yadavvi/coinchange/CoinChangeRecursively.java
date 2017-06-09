@@ -36,7 +36,7 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
         }
         if (coins.size() == 1) {
             Long noOfWays = n % coins.get(0) == 0 ? 1L : 0L;
-            // saveWaysInMap(n, coins, noOfWays);
+            saveWaysInMap(n, coins, noOfWays);
             return noOfWays;
         }
 
@@ -50,10 +50,12 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
         for (long i = 0; i <= n; i += firstCoin) {
             noOfWays = getWaysForCoinChange(n - i, remainingCoins);
             if (noOfWays > 0) {
-                saveWaysInMap(n - i, remainingCoins, noOfWays);
                 noOfWaysForFirstCoin += noOfWays;
             }
         }
+        saveWaysInMap(n, coins, noOfWaysForFirstCoin);
+        /*This gives a NullPointerException
+        return valAndCombinations.get(n).get(new CoinCombination(coins));*/
         return noOfWaysForFirstCoin;
     }
 

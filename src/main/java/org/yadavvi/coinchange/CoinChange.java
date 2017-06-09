@@ -95,7 +95,7 @@ public class CoinChange implements NumberOfWaysForCoinChange {
             for (Map.Entry<Long, Integer> entry : coinCount.entrySet()) {
                 key = entry.getKey();
                 value = entry.getValue();
-                result = 31 * result + ((int) (key ^ (key >>> 32))) * value;
+                result = 31 * result + ((int) (key ^ (key >>> 32))) ^ value;
             }
             return result;
         }

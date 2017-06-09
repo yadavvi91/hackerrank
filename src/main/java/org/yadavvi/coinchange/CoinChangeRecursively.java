@@ -35,8 +35,8 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
             }
         }
         if (coins.size() == 1) {
-            Long noOfWays = n / coins.get(0) == 0 ? 1L : 0L;
-            saveWaysInMap(n, coins, noOfWays);
+            Long noOfWays = n % coins.get(0) == 0 ? 1L : 0L;
+            // saveWaysInMap(n, coins, noOfWays);
             return noOfWays;
         }
 
@@ -47,11 +47,11 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
         List<Long> remainingCoins = new LinkedList<>(coins);
         remainingCoins.remove(0);
 
-        for (long i = 0, j = 0; i <= n; i += firstCoin, j++) {
+        for (long i = 0; i <= n; i += firstCoin) {
             noOfWays = getWaysForCoinChange(n - i, remainingCoins);
-            if (noOfWays >= 0) {
+            if (noOfWays > 0) {
                 saveWaysInMap(n - i, remainingCoins, noOfWays);
-                noOfWaysForFirstCoin += noOfWays + j;
+                noOfWaysForFirstCoin += noOfWays;
             }
         }
         return noOfWaysForFirstCoin;
@@ -84,6 +84,18 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
             }
 
             return true;
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder builder = new StringBuilder();
+            builder.append("[");
+            for (Long coin : coins) {
+                builder.append(coin).append(", ");
+            }
+            builder.delete(builder.length() - 2, builder.length());
+            builder.append("]");
+            return builder.toString();
         }
     }
 

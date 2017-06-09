@@ -1,4 +1,4 @@
-package org.yadavvi.multof3;
+package org.yadavvi.implementation.multof3;
 
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;

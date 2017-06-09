@@ -1,4 +1,4 @@
-package org.yadavvi.coinchange;
+package org.yadavvi.dp.coinchange;
 
 import java.util.*;
 

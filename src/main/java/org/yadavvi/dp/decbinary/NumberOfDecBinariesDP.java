@@ -1,4 +1,4 @@
-package org.yadavvi.decbinary;
+package org.yadavvi.dp.decbinary;
 
 import org.yadavvi.util.ReverseIterable;
 

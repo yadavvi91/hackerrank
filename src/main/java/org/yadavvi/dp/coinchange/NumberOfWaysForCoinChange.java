@@ -1,4 +1,4 @@
-package org.yadavvi.coinchange;
+package org.yadavvi.dp.coinchange;
 
 /**
  * Created by vishal on 9/6/17.

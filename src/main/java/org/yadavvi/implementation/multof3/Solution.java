@@ -1,6 +1,4 @@
-package org.yadavvi.multof3;
-
-import java.util.Scanner;
+package org.yadavvi.implementation.multof3;
 
 /**
  * Created by vishal on 8/6/17.

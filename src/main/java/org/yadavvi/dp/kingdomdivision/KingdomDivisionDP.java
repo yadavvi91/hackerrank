@@ -1,4 +1,4 @@
-package org.yadavvi.kingdomdivision;
+package org.yadavvi.dp.kingdomdivision;
 
 import java.util.*;
 

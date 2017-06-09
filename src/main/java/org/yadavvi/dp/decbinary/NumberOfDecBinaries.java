@@ -1,4 +1,4 @@
-package org.yadavvi.decbinary;
+package org.yadavvi.dp.decbinary;
 
 /**
  * Created by vishal on 3/6/17.

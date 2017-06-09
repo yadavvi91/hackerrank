@@ -102,12 +102,7 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
          */
         @Override
         public int hashCode() {
-            int result = 17;
-            for (Long coin : coins) {
-                result = result * 31 + ((int) (coin ^ (coin >>> 32)));
-            }
-
-            return result;
+            return coins.hashCode();
         }
 
         @Override

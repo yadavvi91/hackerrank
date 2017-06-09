@@ -89,15 +89,7 @@ public class CoinChange implements NumberOfWaysForCoinChange {
 
         @Override
         public int hashCode() {
-            Long key;
-            Integer value;
-            int result = 17;
-            for (Map.Entry<Long, Integer> entry : coinCount.entrySet()) {
-                key = entry.getKey();
-                value = entry.getValue();
-                result = 31 * result + ((int) (key ^ (key >>> 32))) ^ value;
-            }
-            return result;
+            return coinCount.hashCode();
         }
     }
 

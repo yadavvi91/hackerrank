@@ -78,13 +78,7 @@ public class CoinChange implements NumberOfWaysForCoinChange {
             if (!(obj instanceof CoinValues)) return false;
 
             CoinValues otherCoinValues = (CoinValues) obj;
-            HashMap<Long, Integer> otherCoinCount = otherCoinValues.coinCount;
-            if (coinCount.size() != otherCoinCount.size()) return false;
-
-            for (Long key : otherCoinCount.keySet()) {
-                if (!coinCount.get(key).equals(otherCoinCount.get(key))) return false;
-            }
-            return true;
+            return this.coinCount.equals(otherCoinValues.coinCount);
         }
 
         @Override

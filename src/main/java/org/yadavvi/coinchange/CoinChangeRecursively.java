@@ -79,13 +79,7 @@ public class CoinChangeRecursively implements NumberOfWaysForCoinChange {
             if (!(obj instanceof CoinCombination)) return false;
 
             CoinCombination other = (CoinCombination) obj;
-            if (this.coins.size() != other.coins.size()) return false;
-
-            for (int i = 0; i < coins.size(); i++) {
-                if (!coins.get(i).equals(other.coins.get(i))) return false;
-            }
-
-            return true;
+            return this.coins.equals(other.coins);
         }
 
         /**

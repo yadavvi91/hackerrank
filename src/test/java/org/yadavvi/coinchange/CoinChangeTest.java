@@ -36,4 +36,11 @@ public class CoinChangeTest {
         assertThat(coinChange.getWaysForCoinChange(n, c), is(equalTo(ways)));
     }
 
+    @Test
+    @Parameters(method = "valueAndCoins")
+    public void getWaysTestWithRecursionAndDP(long n, long[] c, long ways) throws Exception {
+        coinChange = new CoinChangeRecursively();
+        assertThat(coinChange.getWaysForCoinChange(n, c), is(equalTo(ways)));
+    }
+
 }

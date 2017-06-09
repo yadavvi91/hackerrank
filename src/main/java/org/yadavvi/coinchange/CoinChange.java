@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * Created by vishal on 8/6/17.
  */
-public class CoinChange {
+public class CoinChange implements NumberOfWaysForCoinChange {
 
     public static ArrayList<Long> convertArray(long[] array) {
         ArrayList<Long> result = new ArrayList<>(array.length);
@@ -13,6 +13,10 @@ public class CoinChange {
             result.add(item);
         }
         return result;
+    }
+
+    public long getWaysForCoinChange(long n, long[] c) {
+        return getWays(n, c);
     }
 
     public static long getWays(long n, long[] c) {

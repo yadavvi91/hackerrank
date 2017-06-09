@@ -7,6 +7,21 @@ import java.util.*;
  */
 public class KingdomDivisionDP implements KingdomDivision {
 
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        int[][] roads = new int[n - 1][2];
+        for (int a0 = 0; a0 < n - 1; a0++) {
+            int u = in.nextInt();
+            int v = in.nextInt();
+            roads[a0][0] = u;
+            roads[a0][1] = v;
+        }
+
+        KingdomDivisionDP kingdomDivisionDP = new KingdomDivisionDP();
+        System.out.println(kingdomDivisionDP.numberOfWaysToDivideAKingdom(n, roads, ((int) Math.pow(10, 9) + 7)));
+    }
+
     @Override
     public int numberOfWaysToDivideAKingdom(int n, int[][] roads, int MOD_VALUE) {
         if (roads.length == 0) return 1;
@@ -68,6 +83,9 @@ public class KingdomDivisionDP implements KingdomDivision {
                 roadList = map.get(from);
             }
             roadList.add(road[1]);
+        }
+        for (Integer key : map.keySet()) {
+            Collections.sort(map.get(key));
         }
         return map;
     }

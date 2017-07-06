@@ -7,6 +7,34 @@ import java.util.*;
  */
 public class CrossWordPuzzle {
 
+    private static List<List<Integer>> generateCombinationsForNumber(int start, int end) {
+        List<Integer> firstCombination = new LinkedList<>();
+        for (int i = start; i <= end; i++) {
+            firstCombination.add(i);
+        }
+
+        return generatePerm(firstCombination);
+    }
+
+    public static List<List<Integer>> generatePerm(List<Integer> original) {
+        if (original.size() == 0) {
+            List<List<Integer>> result = new ArrayList<>();
+            result.add(new ArrayList<>());
+            return result;
+        }
+        Integer firstElement = original.remove(0);
+        List<List<Integer>> returnValue = new ArrayList<>();
+        List<List<Integer>> permutations = generatePerm(original);
+        for (List<Integer> smallerPermutated : permutations) {
+            for (int index = 0; index <= smallerPermutated.size(); index++) {
+                List<Integer> temp = new ArrayList<>(smallerPermutated);
+                temp.add(index, firstElement);
+                returnValue.add(temp);
+            }
+        }
+        return returnValue;
+    }
+
     public char[][] solveCrossWordPuzzle(char[][] input, List<String> cities) {
         List<Places> places = getPlaces(input);
         Collections.sort(places);
@@ -22,91 +50,50 @@ public class CrossWordPuzzle {
         }*/
         List<List<Integer>> combinations = generateCombinations(places);
         System.out.println(combinations);
-        /*List<Places> visitedPlaces = new LinkedList<>();
+        List<Places> visitedPlaces = new LinkedList<>();
         List<List<Places>> validWays = new LinkedList<>();
         solveCrossWordPuzzle(input, cities, places, visitedPlaces, validWays);
         for (List<Places> validWay : validWays) {
             System.out.println(validWay);
-        }*/
+        }
         return input;
     }
 
-    private List<List<Integer>> generateCombinations(List<Places> places) {
+    private static List<List<Integer>> generateCombinations(List<Places> places) {
         List<List<Integer>> combinations = new LinkedList<>();
         combinations.add(new LinkedList<>());
-        combinations.get(0).add(0);
 
         int continuous = 1;
-        for (int i = 1; i < places.size(); i++) {
-            if (places.get(i).length == places.get(i - 1).length) {
+        int i = 0;
+        while (i < places.size()) {
+            while (i + 1 < places.size() && places.get(i).length == places.get(i + 1).length) {
                 continuous++;
-                if (i == places.size() - 1) {
-                    List<List<Integer>> numberCombinations = generateCombinationsForNumber(continuous);
-                    List<List<Integer>> newCombinations = new LinkedList<>();
-                    for (List<Integer> combination : combinations) {
-                        for (List<Integer> numberCombination : numberCombinations) {
-                            List<Integer> list = new LinkedList<>();
-                            list.addAll(combination);
-                            for (Integer val : numberCombination) {
-                                list.add(i + val);
-                            }
-                            newCombinations.add(list);
-                        }
-                    }
-                    combinations = newCombinations;
-                }
-            } else {
-                if (continuous != 1) {
-                    List<List<Integer>> numberCombinations = generateCombinationsForNumber(continuous);
-                    List<List<Integer>> newCombinations = new LinkedList<>();
-                    for (List<Integer> combination : combinations) {
-                        for (List<Integer> numberCombination : numberCombinations) {
-                            List<Integer> list = new LinkedList<>();
-                            list.addAll(combination);
-                            for (Integer val : numberCombination) {
-                                list.add(i + val);
-                            }
-                            newCombinations.add(list);
-                        }
-                    }
-                    combinations = newCombinations;
-                } else {
-                    for (List<Integer> combination : combinations) {
-                        combination.add(i);
-                    }
-                }
-                continuous = 1;
+                i++;
             }
+
+            if (continuous > 1) {
+                List<List<Integer>> numberCombinations = generateCombinationsForNumber(i - continuous + 1, i);
+                List<List<Integer>> newCombinations = new LinkedList<>();
+                for (List<Integer> combination : combinations) {
+                    for (List<Integer> numberCombination : numberCombinations) {
+                        List<Integer> list = new LinkedList<>();
+                        list.addAll(combination);
+                        list.addAll(numberCombination);
+                        newCombinations.add(list);
+                    }
+                }
+                combinations = newCombinations;
+                // special condition where the last element is one of the repeated values
+                if (i + 1 == places.size()) i++;
+            } else {
+                for (List<Integer> combination : combinations) {
+                    combination.add(i);
+                }
+                i++;
+            }
+            continuous = 1;
         }
         return combinations;
-    }
-
-    private static List<List<Integer>> generateCombinationsForNumber(int continuous) {
-        List<Integer> firstCombination = new LinkedList<>();
-        for (int i = 0; i < continuous; i++) {
-            firstCombination.add(i);
-        }
-
-        return generatePerm(firstCombination);
-    }
-
-    public static List<List<Integer>> generatePerm(List<Integer> original) {
-        if (original.size() == 0) {
-            List<List<Integer>> result = new ArrayList<List<Integer>>();
-            result.add(new ArrayList<Integer>());
-            return result;
-        }
-        Integer firstElement = original.remove(0);
-        List<List<Integer>> returnValue = new ArrayList<List<Integer>>();
-        List<List<Integer>> permutations = generatePerm(original);
-        for (List<Integer> smallerPermutated : permutations) {
-            for (int index=0; index <= smallerPermutated.size(); index++) {
-                List<Integer> temp = new ArrayList<Integer>(smallerPermutated);
-                temp.add(index, firstElement);
-                returnValue.add(temp);
-            }
-        }
-        return returnValue;
     }
 
     private void solveCrossWordPuzzle(char[][] input, List<String> cities, List<Places> places,

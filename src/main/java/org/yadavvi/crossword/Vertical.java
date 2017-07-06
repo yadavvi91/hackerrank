@@ -9,7 +9,7 @@ public class Vertical extends Places {
     int column;
 
     public Vertical(int start, int end, int column) {
-        super(end - start);
+        super(end - start + 1);
         this.start = start;
         this.end = end;
         this.column = column;

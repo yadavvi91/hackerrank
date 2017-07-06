@@ -9,7 +9,7 @@ public class Horizontal extends Places {
     int row;
 
     public Horizontal(int start, int end, int row) {
-        super(end - start);
+        super(end - start + 1);
         this.start = start;
         this.end = end;
         this.row = row;

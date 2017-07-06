@@ -45,17 +45,15 @@ public class CrossWordPuzzle {
             }
         });
 
-        /*for (Places place : places) {
-            System.out.println(place);
-        }*/
         List<List<Integer>> combinations = generateCombinations(places);
         System.out.println(combinations);
-        List<Places> visitedPlaces = new LinkedList<>();
+
+        /*List<Places> visitedPlaces = new LinkedList<>();
         List<List<Places>> validWays = new LinkedList<>();
         solveCrossWordPuzzle(input, cities, places, visitedPlaces, validWays);
         for (List<Places> validWay : validWays) {
             System.out.println(validWay);
-        }
+        }*/
         return input;
     }
 
@@ -83,8 +81,7 @@ public class CrossWordPuzzle {
                     }
                 }
                 combinations = newCombinations;
-                // special condition where the last element is one of the repeated values
-                if (i + 1 == places.size()) i++;
+                i++;
             } else {
                 for (List<Integer> combination : combinations) {
                     combination.add(i);

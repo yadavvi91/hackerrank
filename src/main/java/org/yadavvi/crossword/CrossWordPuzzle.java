@@ -100,8 +100,9 @@ public class CrossWordPuzzle {
             if (areFirstElementsSame(breakValues, combination)) continue;
             else breakValues.clear();
 
-            for (Integer comb : combination) {
-                if (isCombinationValid(comb, places, cities, workingInput)) {
+            for (int i = 0; i < combination.size(); i++) {
+                Integer comb = combination.get(i);
+                if (isCombinationValid(i, comb, places, cities, workingInput)) {
                     tillNow.add(comb);
                 } else {
                     breakValues.addAll(tillNow);
@@ -133,9 +134,9 @@ public class CrossWordPuzzle {
         return true;
     }
 
-    private boolean isCombinationValid(Integer comb, List<Places> places,
+    private boolean isCombinationValid(Integer index, Integer comb, List<Places> places,
                                        List<String> cities, char[][] input) {
-        Places place = places.get(comb);
+        Places place = places.get(index);
         String city = cities.get(comb);
         if (place instanceof Horizontal) {
             int i = ((Horizontal) place).start;

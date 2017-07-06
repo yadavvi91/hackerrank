@@ -58,7 +58,7 @@ public class CrossWordPuzzle {
 
                     // Add it to places if it is a word from top to bottom that starts at i
                     if (top != bottom && top == i) {
-                        places.add(new Vertical(top, bottom, i));
+                        places.add(new Vertical(top, bottom, j));
                     }
                 }
             }

@@ -9,7 +9,6 @@ import org.junit.runner.RunWith;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,14 +24,32 @@ public class CrossWordPuzzleTest {
 
     private CrossWordPuzzle puzzle;
 
-    private static List<List<Character>> getInputFromFile(String inputFile) {
-        List<List<Character>> inputValues = new ArrayList<>();
+    private static char[][] getInputFromFile(String inputFile) {
+        int numberOfLines = 0;
         String input = CrossWordPuzzleTest.class.getResource(inputFile).getFile();
         try (BufferedReader inputStream = new BufferedReader(new FileReader(input))) {
             String line;
             while ((line = inputStream.readLine()) != null) {
                 if (!line.contains(";")) {
-                    inputValues.add(getListOfCharFromString(line));
+                    numberOfLines++;
+                } else {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        int i = 0;
+        char[][] inputValues = new char[numberOfLines][numberOfLines];
+        try (BufferedReader inputStream = new BufferedReader(new FileReader(input))) {
+            String line;
+            while ((line = inputStream.readLine()) != null) {
+                if (!line.contains(";")) {
+                    inputValues[i++] = line.toCharArray();
+                } else {
+                    break;
                 }
             }
         } catch (IOException e) {
@@ -40,14 +57,6 @@ public class CrossWordPuzzleTest {
         }
 
         return inputValues;
-    }
-
-    private static List<Character> getListOfCharFromString(String line) {
-        List<Character> characterList = new ArrayList<>();
-        for (char aChar : line.toCharArray()) {
-            characterList.add(aChar);
-        }
-        return characterList;
     }
 
     private static List<String> getCitiesFromFile(String inputFile) {
@@ -66,21 +75,33 @@ public class CrossWordPuzzleTest {
         return null;
     }
 
-    private static List<List<Character>> getOutputFromFile(String outputFile) {
-        List<List<Character>> outputValues = new ArrayList<>();
+    private static char[][] getOutputFromFile(String outputFile) {
+        int numberOfLines = 0;
         String input = CrossWordPuzzleTest.class.getResource(outputFile).getFile();
+        try (BufferedReader inputStream = new BufferedReader(new FileReader(input))) {
+            while (inputStream.readLine() != null) {
+                numberOfLines++;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        int i = 0;
+        char[][] outputValue = new char[numberOfLines][numberOfLines];
         try (BufferedReader inputStream = new BufferedReader(new FileReader(input))) {
             String line;
             while ((line = inputStream.readLine()) != null) {
                 if (!line.contains(";")) {
-                    outputValues.add(getListOfCharFromString(line));
+                    outputValue[i++] = line.toCharArray();
+                } else {
+                    break;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return outputValues;
+        return outputValue;
     }
 
     private static void printCities(List<String> cities) {
@@ -89,8 +110,8 @@ public class CrossWordPuzzleTest {
         }
     }
 
-    private static void printCrosswordPuzzle(List<List<Character>> list) {
-        for (List<Character> chars : list) {
+    private static void printCrosswordPuzzle(char[][] list) {
+        for (char[] chars : list) {
             System.out.println(chars);
         }
     }
@@ -110,9 +131,9 @@ public class CrossWordPuzzleTest {
     @Test
     @Parameters(method = "inputOutputFiles")
     public void crosswordOutput(String inputFile, String outputFile) {
-        List<List<Character>> input = getInputFromFile(inputFile);
+        char[][] input = getInputFromFile(inputFile);
         List<String> cities = getCitiesFromFile(inputFile);
-        List<List<Character>> output = getOutputFromFile(outputFile);
+        char[][] output = getOutputFromFile(outputFile);
 
         printCrosswordPuzzle(input);
         printCities(cities);

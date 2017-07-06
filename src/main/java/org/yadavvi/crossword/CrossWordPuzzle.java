@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class CrossWordPuzzle {
 
-    public List<List<Character>> solveCrossWordPuzzle(List<List<Character>> input, List<String> cities) {
+    public char[][] solveCrossWordPuzzle(char[][] input, List<String> cities) {
         return null;
     }
 

@@ -118,8 +118,11 @@ public class CrossWordPuzzleTest {
 
     public Object[] inputOutputFiles() {
         return new Object[]{
-                new Object[]{"input1.txt", "output1.txt"},
-                new Object[]{"input2.txt", "output2.txt"}
+                /*new Object[]{"input0.txt", "output0.txt"},
+                new Object[]{"input1.txt", "output1.txt"},*/
+                new Object[]{"input2.txt", "output2.txt"},
+                /*new Object[]{"input3.txt", "output3.txt"},
+                new Object[]{"input6.txt", "output6.txt"},*/
         };
     }
 

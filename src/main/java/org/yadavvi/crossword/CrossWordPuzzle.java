@@ -150,7 +150,7 @@ public class CrossWordPuzzle {
                         return false;
                     }
                 }
-                input[((Horizontal) place).row][i++] = charValue;
+                input[row][i++] = charValue;
             }
         } else if (place instanceof Vertical) {
             int i = ((Vertical) place).start;

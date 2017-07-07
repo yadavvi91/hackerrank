@@ -122,6 +122,7 @@ public class CrossWordPuzzleTest {
                 new Object[]{"input1.txt", "output1.txt"},
                 new Object[]{"input2.txt", "output2.txt"},
                 new Object[]{"input3.txt", "output3.txt"},
+                new Object[]{"input4.txt", "output4.txt"},
                 new Object[]{"input6.txt", "output6.txt"},
         };
     }

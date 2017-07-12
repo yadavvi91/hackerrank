@@ -1,9 +1,6 @@
 package org.yadavvi.backtracking;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by vishal on 12/7/17.
@@ -24,23 +21,42 @@ public class KFactorization {
         }
         Collections.sort(integers);
 
+        int[] valid = getSanitizedFactors(N, integers);
         this.N = N;
-        this.a = new int[a.length];
+        this.a = new int[valid.length];
         for (int i = 0; i < this.a.length; i++) {
-            this.a[i] = integers.get(i);
+            this.a[i] = valid[i];
         }
-        int length = N / a[a.length - 1] + 1;
-        this.mult = new int[length < a.length ? a.length : length];
+        if (valid.length != 0) {
+            int length = N / valid[valid.length - 1] + 1;
+            this.mult = new int[length < valid.length ? valid.length : length];
+        } else {
+            this.mult = new int[0];
+        }
         this.position = 0;
         this.factors = new int[mult.length + 1];
         this.lastFactor = 0;
+    }
+
+    private int[] getSanitizedFactors(int N, List<Integer> integers) {
+        List<Integer> validFactors = new ArrayList<>();
+        for (Integer val : integers) {
+            if (N % val == 0) {
+                validFactors.add(val);
+            }
+        }
+        int[] valid = new int[validFactors.size()];
+        for (int i = 0; i < valid.length; i++) {
+            valid[i] = validFactors.get(i);
+        }
+        return valid;
     }
 
     public void kFactorization() {
         kFactorization(1);
     }
 
-    private void kFactorization(int k) {
+    private void kFactorization(long k) {
         if (k == N) {
             process();
             return;
@@ -57,7 +73,7 @@ public class KFactorization {
         }
     }
 
-    private boolean canBacktrack(int k) {
+    private boolean canBacktrack(long k) {
         return k > N;
     }
 

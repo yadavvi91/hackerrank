@@ -46,6 +46,10 @@ public class KFactorization {
             return;
         }
 
+        // i starts from 0 rather than r because the combinations can be repeated
+        // for e.g.: N - 600000, factors - {2, 3, 5, 7, 11, 13, 17, 19}
+        // has output - {1, 2, 4, 8, 16, 32, 64, 192, 960, 4800, 24000, 120000, 600000}
+        // for which mult[] values are {2, 2, 2, 2, 2, 2, 3, 5, 5, 5, 5, 5}
         for (int i = 0; i < a.length; i++) {
             mult[position++] = a[i];
             if (!canBacktrack(k * a[i])) kFactorization(k * a[i], r + 1);

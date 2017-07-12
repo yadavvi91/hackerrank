@@ -30,14 +30,35 @@ public class KFactorization {
             this.a[i] = valid[i];
         }
         if (valid.length != 0) {
-            int length = N / valid[valid.length - 1] + 1;
-            this.mult = new int[length < valid.length ? valid.length : length];
+            int length = findValidLength(N, valid);
+            this.mult = new int[length];
         } else {
             this.mult = new int[0];
         }
         this.position = 0;
         this.factors = new int[mult.length + 1];
         this.lastFactor = 0;
+    }
+
+    private int findValidLength(int N, int[] valid) {
+        int length = N / valid[valid.length - 1] + 1;
+        List<Integer> integers = new ArrayList<>(valid.length);
+        for (int val : valid) {
+            integers.add(val);
+        }
+        Collections.sort(integers);
+        int value = N;
+
+        int count = 0;
+        for (int j = 0; j < valid.length; j++) {
+            int val = valid[j];
+            while (value % val == 0) {
+                value = value / val;
+                count++;
+            }
+        }
+
+        return count < 5000 ? 5000 : count;
     }
 
     private int[] getSanitizedFactors(int N, List<Integer> integers) {

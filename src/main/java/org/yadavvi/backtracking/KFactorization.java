@@ -14,12 +14,14 @@ public class KFactorization {
     private int position;
     private int lastFactor;
 
+    private boolean found;
+
     KFactorization(int N, int[] a) {
         List<Integer> integers = new LinkedList<>();
         for (int val : a) {
             integers.add(val);
         }
-        Collections.sort(integers);
+        Collections.sort(integers, Collections.reverseOrder());
 
         int[] valid = getSanitizedFactors(N, integers);
         this.N = N;
@@ -57,7 +59,10 @@ public class KFactorization {
     }
 
     private void kFactorization(long k) {
+        if (found) return;
+
         if (k == N) {
+            found = true;
             process();
             return;
         }
@@ -82,9 +87,21 @@ public class KFactorization {
         // factors[] which isn't there in mult[].
         if (lastFactor != 0 && position >= lastFactor - 1) return;
 
+        int[] mult_rev = new int[position];
+        // copy valid values in mult_rev
+        for (int i = 0; i < position; i++) {
+            mult_rev[i] = mult[i];
+        }
+        // reverse mult_rev
+        for (int i = 0; i < mult_rev.length / 2; i++) {
+            int temp = mult_rev[i];
+            mult_rev[i] = mult_rev[mult_rev.length - 1 - i];
+            mult_rev[mult_rev.length - 1 - i] = temp;
+        }
+
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
-            factors[i] = factors[i - 1] * mult[i - 1];
+            factors[i] = factors[i - 1] * mult_rev[i - 1];
         }
 
         // Set extra values to 0

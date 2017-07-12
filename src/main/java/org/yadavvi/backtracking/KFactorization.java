@@ -11,8 +11,9 @@ public class KFactorization {
 
     private int N;
     private int[] a;
-    private int[] mult;
+    private int[] mult; // NOTE: mult[] doesn't store the actual output, it only stores the factors found along the way.
     private int position;
+    private boolean found;
 
     KFactorization(int N, int[] a) {
         List<Integer> integers = new LinkedList<>();
@@ -31,12 +32,17 @@ public class KFactorization {
     }
 
     public void kFactorization() {
-        mult[position++] = 1;
         kFactorization(1, 0);
+        if (!found) {
+            System.out.println("-1");
+        }
     }
 
     private void kFactorization(int k, int r) {
+        if (found) return;
+
         if (k == N) {
+            found = true;
             process();
             return;
         }
@@ -53,33 +59,25 @@ public class KFactorization {
     }
 
     private void process() {
-        for (int i = 0; i < position; i++) {
-            System.out.printf("%d ", mult[i]);
-        }
-        System.out.println();
-    }
-
-    public int[] smallestFactors() {
-        if (position == 1 && mult[position - 1] == 1) {
-            return new int[]{-1};
-        }
-
         int[] factors = new int[position + 1];
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
-            factors[i] = factors[i - 1] * mult[i];
+            factors[i] = factors[i - 1] * mult[i - 1];
         }
-
-        return factors;
+        for (int i = 0; i < position + 1; i++) {
+            System.out.printf("%d ", factors[i]);
+        }
+        System.out.println();
     }
 
     public static void main(String[] args) {
         KFactorization kFactorization = new KFactorization(72, new int[]{2, 4, 6, 9, 3, 7, 16, 10, 5});
         kFactorization.kFactorization();
-        int[] result = kFactorization.smallestFactors();
-        for (int i = 0; i < result.length; i++) {
-            System.out.printf("%d ", result[i]);
-        }
-        System.out.println();
+
+        kFactorization = new KFactorization(12, new int[]{2, 3, 4});
+        kFactorization.kFactorization();
+
+        kFactorization = new KFactorization(15, new int[]{2, 10, 6, 9, 11});
+        kFactorization.kFactorization();
     }
 }

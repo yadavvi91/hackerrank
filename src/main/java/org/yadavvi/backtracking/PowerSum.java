@@ -5,13 +5,14 @@ package org.yadavvi.backtracking;
  */
 public class PowerSum {
 
+    private final int exponent;
     private int number;
     private int N;
     private int[] a;
     private int position;
     private int count;
 
-    PowerSum(int number) {
+    PowerSum(int number, int exponent) {
         if (number < 1) {
             throw new IllegalArgumentException("No square on an Integer is less than 1");
         }
@@ -22,7 +23,8 @@ public class PowerSum {
         }
 
         this.number = number;
-        enumerate(1);
+        this.exponent = exponent;
+        enumerate(1); // Starting it from 1 because Math.pow(0, x) would always be zero.
     }
 
     public void enumerate(int k) {
@@ -32,12 +34,12 @@ public class PowerSum {
         }
 
         for (int i = k; i <= N; i++) {
-            int square = (int) Math.pow(i, 2);
+            int product = (int) Math.pow(i, exponent);
             a[position++] = i;
-            number = number - square;
+            number = number - product;
             if (!canBacktrack()) enumerate(i + 1);
             // Cleanup
-            number = number + square;
+            number = number + product;
             a[--position] = 0;
         }
     }
@@ -56,14 +58,14 @@ public class PowerSum {
     }
 
     public static void main(String[] args) {
-        PowerSum powerSum = new PowerSum(10);
+        PowerSum powerSum = new PowerSum(10, 2);
         System.out.printf("Number: %d, Count: %d%n", powerSum.number, powerSum.count);
 
-        powerSum = new PowerSum(100);
+        powerSum = new PowerSum(100, 2);
         System.out.printf("Number: %d, Count: %d%n", powerSum.number, powerSum.count);
-        powerSum = new PowerSum(400);
+        powerSum = new PowerSum(400, 2);
         System.out.printf("Number: %d, Count: %d%n", powerSum.number, powerSum.count);
-        powerSum = new PowerSum(800);
+        powerSum = new PowerSum(800, 2);
         System.out.printf("Number: %d, Count: %d%n", powerSum.number, powerSum.count);
     }
 }

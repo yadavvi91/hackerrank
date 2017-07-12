@@ -14,8 +14,6 @@ public class KFactorization {
     private int position;
     private int lastFactor;
 
-    private boolean found;
-
     KFactorization(int N, int[] a) {
         List<Integer> integers = new LinkedList<>();
         for (int val : a) {
@@ -36,7 +34,8 @@ public class KFactorization {
             this.mult = new int[0];
         }
         this.position = 0;
-        this.factors = new int[mult.length + 1];
+        // We do not need to allocate memory for 'factors' here
+        // this.factors = new int[mult.length + 1];
         this.lastFactor = 0;
     }
 
@@ -108,30 +107,18 @@ public class KFactorization {
             mult_reverse[mult_reverse.length - 1 - i] = temp;
         }
 
+        factors = new int[mult_reverse.length + 1];
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
             factors[i] = factors[i - 1] * mult_reverse[i - 1];
         }
 
-        // Set extra values to 0
-        for (int i = position + 1; i < lastFactor; i++) {
-            factors[i] = 0;
-        }
         // Reset the lastFactor
         lastFactor = position + 1;
     }
 
     public int[] smallestFactors() {
-        int i;
-        for (i = 0; i < factors.length; i++) {
-            if (factors[i] == 0) break;
-            if (i > 0 && factors[i - 1] == N && factors[i] == N) break;
-        }
-        int[] validFactor = new int[i];
-        for (int j = 0; j < i; j++) {
-            validFactor[j] = factors[j];
-        }
-        return validFactor.length == 0 ? new int[]{-1} : validFactor;
+        return factors == null ? new int[]{-1} : factors;
     }
 
     public static void main(String[] args) {

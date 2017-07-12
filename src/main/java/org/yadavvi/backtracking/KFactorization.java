@@ -37,10 +37,10 @@ public class KFactorization {
     }
 
     public void kFactorization() {
-        kFactorization(1, 0);
+        kFactorization(1);
     }
 
-    private void kFactorization(int k, int r) {
+    private void kFactorization(int k) {
         if (k == N) {
             process();
             return;
@@ -52,7 +52,7 @@ public class KFactorization {
         // for which mult[] values are {2, 2, 2, 2, 2, 2, 3, 5, 5, 5, 5, 5}
         for (int i = 0; i < a.length; i++) {
             mult[position++] = a[i];
-            if (!canBacktrack(k * a[i])) kFactorization(k * a[i], r + 1);
+            if (!canBacktrack(k * a[i])) kFactorization(k * a[i]);
             mult[--position] = 0;
         }
     }

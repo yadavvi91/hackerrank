@@ -41,24 +41,14 @@ public class KFactorization {
     }
 
     private int findValidLength(int N, int[] valid) {
-        int length = N / valid[valid.length - 1] + 1;
-        List<Integer> integers = new ArrayList<>(valid.length);
-        for (int val : valid) {
-            integers.add(val);
-        }
-        Collections.sort(integers);
-        int value = N;
-
+        int base = valid[valid.length - 1];
+        int sum = 1;
         int count = 0;
-        for (int j = 0; j < valid.length; j++) {
-            int val = valid[j];
-            while (value % val == 0) {
-                value = value / val;
-                count++;
-            }
+        while (sum < N) {
+            sum *= base;
+            count++;
         }
-
-        return count < 5000 ? 5000 : count;
+        return count + 1;
     }
 
     private int[] getSanitizedFactors(int N, List<Integer> integers) {
@@ -76,25 +66,23 @@ public class KFactorization {
     }
 
     public void kFactorization() {
-        kFactorization(1);
+        kFactorization(1, 0);
     }
 
-    private void kFactorization(long k) {
-        if (found) return;
-
+    private void kFactorization(long k, int r) {
         if (k == N) {
-            found = true;
             process();
             return;
         }
 
-        // i starts from 0 rather than r because the combinations can be repeated
+        // 'i' should start at 'r' and the next number at kFactorization should also have 'i' start
+        // with 'r' rather than 'r+1' because a number can be repeated.
         // for e.g.: N - 600000, factors - {2, 3, 5, 7, 11, 13, 17, 19}
         // has output - {1, 2, 4, 8, 16, 32, 64, 192, 960, 4800, 24000, 120000, 600000}
         // for which mult[] values are {2, 2, 2, 2, 2, 2, 3, 5, 5, 5, 5, 5}
-        for (int i = 0; i < a.length; i++) {
+        for (int i = r; i < a.length; i++) {
             mult[position++] = a[i];
-            if (!canBacktrack(k * a[i])) kFactorization(k * a[i]);
+            if (!canBacktrack(k * a[i])) kFactorization(k * a[i], i);
             mult[--position] = 0;
         }
     }

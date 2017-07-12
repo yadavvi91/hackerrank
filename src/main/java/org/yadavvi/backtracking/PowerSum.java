@@ -5,12 +5,11 @@ package org.yadavvi.backtracking;
  */
 public class PowerSum {
 
-    int number;
-    int N;
-    // double[] squares;
-    int[] a;
-    int position;
-    int count;
+    private int number;
+    private int N;
+    private int[] a;
+    private int position;
+    private int count;
 
     PowerSum(int number) {
         if (number < 1) {
@@ -18,7 +17,9 @@ public class PowerSum {
         }
         N = number == 1 ? 1 : number / 2;
         a = new int[N];
-        // squares = new double[N];
+        for (int i = 0; i < N; i++) {
+            a[i] = 0; // Initialize the array with 0 (Not needed since int[] is always initialized to 0)
+        }
 
         this.number = number;
         enumerate(1);
@@ -29,30 +30,27 @@ public class PowerSum {
             process();
             return;
         }
-        if (number < 0) {
-            return;
-        }
 
         for (int i = k; i <= N; i++) {
             int square = (int) Math.pow(i, 2);
-            if (number - square < 0) {
-                return;
-            }
-            a[position] = square;
-            number = number - a[position];
-            position++;
-            enumerate(i + 1);
+            a[position++] = i;
+            number = number - square;
+            if (!canBacktrack()) enumerate(i + 1);
             // Cleanup
-            number = number + a[--position];
-            a[position] = 0;
+            number = number + square;
+            a[--position] = 0;
         }
+    }
+
+    private boolean canBacktrack() {
+        return number < 0;
     }
 
     private void process() {
         count++;
         /*for (int val : a) {
             if (val == 0) break;
-            System.out.printf("%d^%d + ", (int) Math.sqrt(val), 2);
+            System.out.printf("%d^%d + ", val, 2);
         }
         System.out.println();*/
     }

@@ -3,6 +3,7 @@ package org.yadavvi.backtracking;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created by vishal on 12/7/17.
@@ -12,6 +13,7 @@ public class KFactorization {
     private int N;
     private int[] a;
     private int[] mult; // NOTE: mult[] doesn't store the actual output, it only stores the factors found along the way.
+    private int[] factors;
     private int position;
     private boolean found;
 
@@ -33,9 +35,6 @@ public class KFactorization {
 
     public void kFactorization() {
         kFactorization(1, 0);
-        if (!found) {
-            System.out.println("-1");
-        }
     }
 
     private void kFactorization(int k, int r) {
@@ -59,25 +58,36 @@ public class KFactorization {
     }
 
     private void process() {
-        int[] factors = new int[position + 1];
+        factors = new int[position + 1];
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
             factors[i] = factors[i - 1] * mult[i - 1];
         }
-        for (int i = 0; i < position + 1; i++) {
-            System.out.printf("%d ", factors[i]);
-        }
-        System.out.println();
+    }
+
+    public int[] smallestFactors() {
+        return factors == null ? new int[]{-1} : factors;
     }
 
     public static void main(String[] args) {
-        KFactorization kFactorization = new KFactorization(72, new int[]{2, 4, 6, 9, 3, 7, 16, 10, 5});
-        kFactorization.kFactorization();
+        Scanner scanner = new Scanner(System.in);
 
-        kFactorization = new KFactorization(12, new int[]{2, 3, 4});
-        kFactorization.kFactorization();
+        int N = scanner.nextInt();
+        int q = scanner.nextInt();
+        int[] a = new int[q];
+        for (int i = 0; i < q; i++) {
+            a[i] = scanner.nextInt();
+        }
 
-        kFactorization = new KFactorization(15, new int[]{2, 10, 6, 9, 11});
+        KFactorization kFactorization = new KFactorization(N, a);
         kFactorization.kFactorization();
+        int[] result = kFactorization.smallestFactors();
+
+        for (int val : result) {
+            System.out.printf("%d ", val);
+        }
+        System.out.println();
+        scanner.close();
     }
+
 }

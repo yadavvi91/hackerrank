@@ -15,7 +15,7 @@ public class KFactorization {
     private int[] mult; // NOTE: mult[] doesn't store the actual output, it only stores the factors found along the way.
     private int[] factors;
     private int position;
-    private boolean found;
+    private int lastFactor;
 
     KFactorization(int N, int[] a) {
         List<Integer> integers = new LinkedList<>();
@@ -29,8 +29,11 @@ public class KFactorization {
         for (int i = 0; i < this.a.length; i++) {
             this.a[i] = integers.get(i);
         }
-        this.mult = new int[a.length];
+        int length = N / a[a.length - 1] + 1;
+        this.mult = new int[length < a.length ? a.length : length];
         this.position = 0;
+        this.factors = new int[mult.length + 1];
+        this.lastFactor = 0;
     }
 
     public void kFactorization() {
@@ -38,15 +41,12 @@ public class KFactorization {
     }
 
     private void kFactorization(int k, int r) {
-        if (found) return;
-
         if (k == N) {
-            found = true;
             process();
             return;
         }
 
-        for (int i = r; i < a.length; i++) {
+        for (int i = 0; i < a.length; i++) {
             mult[position++] = a[i];
             if (!canBacktrack(k * a[i])) kFactorization(k * a[i], r + 1);
             mult[--position] = 0;
@@ -58,15 +58,34 @@ public class KFactorization {
     }
 
     private void process() {
-        factors = new int[position + 1];
+        // -1 because we need to consider the first 1 in
+        // factors[] which isn't there in mult[].
+        if (lastFactor != 0 && position >= lastFactor - 1) return;
+
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
             factors[i] = factors[i - 1] * mult[i - 1];
         }
+
+        // Set extra values to 0
+        for (int i = position + 1; i < lastFactor; i++) {
+            factors[i] = 0;
+        }
+        // Reset the lastFactor
+        lastFactor = position + 1;
     }
 
     public int[] smallestFactors() {
-        return factors == null ? new int[]{-1} : factors;
+        int i;
+        for (i = 0; i < factors.length; i++) {
+            if (factors[i] == 0) break;
+            if (i > 0 && factors[i - 1] == N && factors[i] == N) break;
+        }
+        int[] validFactor = new int[i];
+        for (int j = 0; j < i; j++) {
+            validFactor[j] = factors[j];
+        }
+        return validFactor.length == 0 ? new int[]{-1} : validFactor;
     }
 
     public static void main(String[] args) {

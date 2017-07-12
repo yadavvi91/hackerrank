@@ -19,7 +19,7 @@ public class KFactorization {
         for (int val : a) {
             integers.add(val);
         }
-        Collections.sort(integers, Collections.reverseOrder());
+        Collections.sort(integers);
 
         int[] valid = getSanitizedFactors(N, integers);
         this.N = N;
@@ -40,7 +40,7 @@ public class KFactorization {
     }
 
     private int findValidLength(int N, int[] valid) {
-        int base = valid[valid.length - 1];
+        int base = valid[0];
         int sum = 1;
         int count = 0;
         while (sum < N) {
@@ -95,22 +95,10 @@ public class KFactorization {
         // factors[] which isn't there in mult[].
         if (lastFactor != 0 && position >= lastFactor - 1) return;
 
-        int[] mult_reverse = new int[position];
-        // copy valid values in mult_reverse
-        for (int i = 0; i < position; i++) {
-            mult_reverse[i] = mult[i];
-        }
-        // reverse mult_reverse
-        for (int i = 0; i < mult_reverse.length / 2; i++) {
-            int temp = mult_reverse[i];
-            mult_reverse[i] = mult_reverse[mult_reverse.length - 1 - i];
-            mult_reverse[mult_reverse.length - 1 - i] = temp;
-        }
-
-        factors = new int[mult_reverse.length + 1];
+        factors = new int[position + 1];
         factors[0] = 1;
         for (int i = 1; i < position + 1; i++) {
-            factors[i] = factors[i - 1] * mult_reverse[i - 1];
+            factors[i] = factors[i - 1] * mult[i - 1];
         }
 
         // Reset the lastFactor

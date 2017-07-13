@@ -24,7 +24,7 @@ public class PasswordCracker {
         this.matches = new String[length];
         this.position = 0;
 
-        enumerate(this.input);
+        enumerate(this.input, 0);
     }
 
     private String[] sanitizePasswords(String[] passwords, String input) {
@@ -78,8 +78,9 @@ public class PasswordCracker {
         return length / min + 1;
     }
 
-    private void enumerate(String input) {
+    private void enumerate(String input, int j) {
         if (found) return;
+        if (passwords.length == 0) return;
 
         if (input.length() == 0) {
             found = true;
@@ -87,11 +88,12 @@ public class PasswordCracker {
             return;
         }
 
-        for (String password : passwords) {
+        for (int i = 0; (i + j) == 0 || (i + j) == passwords.length || (i + j) % passwords.length != 0; i++) {
+            String password = passwords[(i + j) % passwords.length];
             if (password.length() > input.length()) continue;
 
             matches[position++] = password;
-            if (!canBackTrack(input, password)) enumerate(input.substring(password.length()));
+            if (!canBackTrack(input, password)) enumerate(input.substring(password.length()), (i + j) % passwords.length);
             matches[--position] = "";
         }
     }

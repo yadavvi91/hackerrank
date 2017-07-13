@@ -22,12 +22,12 @@ public class PasswordCrackerTest {
 
     public Object[] passwordInputStringAndOutput() {
         return new Object[]{
-                new Object[]{new String[]{"because", "can", "do", "must", "we", "what"}, "wedowhatwemustbecausewecan",
+                /*new Object[]{new String[]{"because", "can", "do", "must", "we", "what"}, "wedowhatwemustbecausewecan",
                         new String[]{"we", "do", "what", "we", "must", "because", "we", "can"}},
                 new Object[]{new String[]{"hello", "planet"}, "helloworld",
                         new String[]{"WRONG PASSWORD"}},
                 new Object[]{new String[]{"ab", "abcd", "cd"}, "abcd",
-                        new String[]{"ab", "cd"}},
+                        new String[]{"ab", "cd"}},*/
                 new Object[]{new String[]{"the", "cake", "is", "a", "lie", "thec", "ak", "ei", "sal", "ie"},
                         "thecakeisaliethecakeisalieakthecakeisaliethecakeisaliethecakeisaliethecakeisaliethe" +
                                 "cakeisaliethecakeisaliethecakeisaliethecakeisaliethecakeisaliethecakeisalie" +

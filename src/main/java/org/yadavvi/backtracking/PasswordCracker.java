@@ -1,6 +1,6 @@
 package org.yadavvi.backtracking;
 
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Created by vishal on 13/7/17.
@@ -17,7 +17,7 @@ public class PasswordCracker {
     private boolean found;
 
     PasswordCracker(String[] passwords, String input) {
-        this.passwords = passwords;
+        this.passwords = sanitizePasswords(passwords, input);
         this.input = input;
 
         int length = findLengthForMatches(passwords, input.length());
@@ -27,8 +27,50 @@ public class PasswordCracker {
         enumerate(this.input);
     }
 
+    private String[] sanitizePasswords(String[] passwords, String input) {
+        Set<String> exclude = new HashSet<>();
+        HashMap<Character, Integer> characterMap = new HashMap<>();
+        for (char character : input.toCharArray()) {
+            Integer count = characterMap.get(character);
+            if (count == null) {
+                characterMap.put(character, 1);
+            } else {
+                characterMap.put(character, count + 1);
+            }
+        }
+
+        for (String password : passwords) {
+            for (char character : password.toCharArray()) {
+                if (characterMap.get(character) == null) {
+                    exclude.add(password);
+                    break;
+                }
+            }
+        }
+        String[] validPasswords = new String[passwords.length - exclude.size()];
+        int i = 0;
+        for (String password : passwords) {
+            if (exclude.contains(password)) continue;
+            validPasswords[i++] = password;
+        }
+
+        if (!canTheWordBeFormed(characterMap, validPasswords)) {
+            return new String[0];
+        }
+        return validPasswords;
+    }
+
+    private boolean canTheWordBeFormed(HashMap<Character, Integer> characterMap, String[] validPasswords) {
+        for (String validPassword : validPasswords) {
+            for (char character : validPassword.toCharArray()) {
+                characterMap.remove(character);
+            }
+        }
+        return characterMap.size() == 0;
+    }
+
     private int findLengthForMatches(String[] passwords, int length) {
-        if (passwords.length == 0) throw new IllegalArgumentException("The valid passwords passed is empty.");
+        if (passwords.length == 0) return 0;
         int min = passwords[0].length();
         for (String password : passwords) {
             if (password.length() < min) min = password.length();

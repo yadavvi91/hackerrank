@@ -1,4 +1,4 @@
-package org.yadavvi.backtracking;
+package org.yadavvi.backtracking.passwordcracker;
 
 import java.util.*;
 

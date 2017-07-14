@@ -36,6 +36,8 @@ public class RepetitiveKSumsTest {
     public Object[] inputAndOutputForRepetitiveKSumsFromFiles() {
         return new Object[] {
                 new Object[] {"input_sample00.txt", "output_sample00.txt"},
+                new Object[] {"input00.txt", "output00.txt"},
+                new Object[] {"input01.txt", "output01.txt"},
         };
     }
 
